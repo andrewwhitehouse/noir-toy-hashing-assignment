@@ -14,17 +14,13 @@ fn main() {
 }
 
 fn calculate_hash(num: u32) -> u32 {
-    let base = 2;
-    let size = base.pow_32(32);
-    std::println(size);
     let prime: u32  = 16777619;
     let bytes = (num as Field).to_be_bytes(4);
     let mut hash_value: u32 = 0x811C9DC5;
     for i in 0..4 {
-        let product = (hash_value * prime) % (size as u32);
+        let product = hash_value * prime;
         hash_value = product ^ (bytes[i] as u32);
     }
-    std::println(hash_value);
     hash_value
 }
 
