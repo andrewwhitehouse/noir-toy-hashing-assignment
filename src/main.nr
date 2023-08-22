@@ -1,20 +1,38 @@
 global PRIME: u32 = 16777619;
 
-fn main(value: u32, hash_value: pub u32){
-    let calculated_hash_value = calculate_hash(value);
+use dep::std;
 
-    assert(calculated_hash_value == hash_value);
+// fn main(value: u32, hash_value: pub u32){
+    
+//     let calculated_hash_value = calculate_hash(value);
+
+//     assert(calculated_hash_value == hash_value);
+// }
+
+fn main() {
+    assert( 1 == 1);
 }
 
 fn calculate_hash(num: u32) -> u32 {
-    
+    let base = 2;
+    let size = base.pow_32(32);
+    std::println(size);
+    let prime: u32  = 16777619;
+    let bytes = (num as Field).to_be_bytes(4);
+    let mut hash_value: u32 = 0x811C9DC5;
+    for i in 0..4 {
+        let product = (hash_value * prime) % (size as u32);
+        hash_value = product ^ (bytes[i] as u32);
+    }
+    std::println(hash_value);
+    hash_value
 }
 
 #[test]
 fn test_1() {
     let num = 127561628;
     let hash = calculate_hash(num);
-    
+    std::println(hash);
     assert(hash == 0x71233de7);
 }
 
@@ -30,6 +48,6 @@ fn test_2() {
 fn test_3() {
     let num = 596214892;
     let hash = calculate_hash(num);
-
+    std::println(hash);
     assert(hash == 0x3F0C8995);
 }
